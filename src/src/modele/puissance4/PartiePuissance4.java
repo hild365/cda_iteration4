@@ -128,10 +128,5 @@ public class PartiePuissance4 extends Partie {
     public EtatPartie getEtatPartie() {
         return new EtatPartieP4(lesJoueurs, rotationPossible);
     }
-    public int getNbTas() {
-        return 0;
-    }
-    public int getNbAllumettes(int numTas) {
-        return 0;
-    }
+
 }

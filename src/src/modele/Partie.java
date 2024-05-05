@@ -103,6 +103,5 @@ public abstract class Partie {
         return null;
     }
     // les methodes suivantes sont ajoutees pour le jeu de Nim ce sont des methodes abstraites
-    public abstract int getNbTas();
-    public abstract int getNbAllumettes(int numTas);
+
 }

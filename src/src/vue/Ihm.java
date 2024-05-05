@@ -148,8 +148,13 @@ public class Ihm {
      * @param scores    Le tableau des scores de chaque joueur.
      */
     public void affichageFinSession(String vainqueur, String[][] scores) {
+
         if (vainqueur != null) {
+            if (vainqueur.equals("IA")){
+                affichage(texteJaune("\nDésolé, vous avez perdu la session contre l'IA.\n"));
+            }else{
             affichage("\nFélicitations " + texteVert(vainqueur) + " ! Vous remportez la session !\n");
+            }
             String affichageScore = "Voici les Scores :\n";
             for (String[] score : scores) {
                 affichageScore += texteVert(score[0]) + " : " + texteJaune(score[1] + "\n");
