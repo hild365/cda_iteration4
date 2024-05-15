@@ -45,7 +45,6 @@ public class PartiePuissance4 extends Partie {
      * @return Vrai si une séquence de 4 jetons ou plus est alignée ou si la grille est remplie, faux sinon.
      */
     public boolean partieFinie() {
-        //TODO: Implementer la verification de la victoire
         int[] p4 = grille.puissance4();
         return (p4[0] >= 4 || grille.estRemplie());
     }

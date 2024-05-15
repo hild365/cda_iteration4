@@ -152,16 +152,15 @@ public class Controleur {
             } else {
                  coups = ihm.demanderCoups(joueurCourant, etatPartie);
             }
-                try {
-                    // Joue le coup et passe au joueur suivant
-                    session.jouerTour(coups);
-                    session.joueurSuivant();
-                } catch (Exception e) {
-                    //Affiche l'erreur si le coup n'est pas valide
-                  ihm.afficherErreur(e.getMessage()+"\nVeuillez rejouer.");
-                }
-
+            try {
+                // Joue le coup et passe au joueur suivant
+                session.jouerTour(coups);
+                session.joueurSuivant();
+            } catch (Exception e) {
+                //Affiche l'erreur si le coup n'est pas valide
+              ihm.afficherErreur(e.getMessage()+"\nVeuillez rejouer.");
             }
+        }
         //Passe au joueur suivant pour afficher le plateau final par ce qu'il ya dans le try catch session.joueurSuivant();
         //alors que la partie est finie
         session.joueurSuivant();

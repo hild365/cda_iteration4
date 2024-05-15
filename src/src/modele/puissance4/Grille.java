@@ -3,15 +3,15 @@ package modele.puissance4;
 
 import modele.InputException;
 
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * La classe Grille représente la grille de jeu pour le jeu de Puissance 4.
  * Elle contient des méthodes pour insérer des jetons, vérifier l'état de la grille, et effectuer des rotations.
  */
 public class Grille implements Cloneable{
-    private int[][] grille;
-    private int[] dernierCoup;
+    private final int[][] grille;
+    private final int[] dernierCoup;
 
     /**
      * Constructeur de la classe Grille.
@@ -47,8 +47,8 @@ public class Grille implements Cloneable{
         return super.clone();
     }
     public void retirerJeton(int col) {
-        int numligne = ligneVide(col + 1);
-        if (numligne-1 != -1) {
+        int numligne = nbJetons(col);
+        if (numligne != 0) {
             grille[col][numligne-1] = 0;
         }
     }
@@ -61,12 +61,21 @@ public class Grille implements Cloneable{
      */
     public int ligneVide(int colonne) {
         for (int ligne = 0; ligne < 7; ligne++) {
-            System.out.println(ligne);
             if (grille[colonne - 1][ligne] == 0) {
                 return ligne;
             }
         }
         return -1;
+    }
+
+    public int nbJetons(int col){
+        int nb=0;
+        for (int i=0;i<7;i++){
+            if(grille[col][i]!=0){
+                nb++;
+            }
+        }
+        return nb;
     }
 
     /**
@@ -287,6 +296,8 @@ public class Grille implements Cloneable{
                     }
                 }
             }
+            mettreAJourDernierCoup(-1,-1);
+
         } else {
             for (int x = 0; x < 7; x++) {
                 for (int y = 6; y >= 0; y--) {
@@ -295,10 +306,18 @@ public class Grille implements Cloneable{
                     }
                 }
             }
+            mettreAJourDernierCoup(-2,-2);
+
         }
-        mettreAJourDernierCoup(-1,-1);
         return nouvelleGrille;
     }
 
-
+    @Override
+    public String toString() {
+        String res="";
+        for(int i=0;i<7;i++){
+            res+=Arrays.toString(grille[i])+"\n";
+        }
+        return res;
+    }
 }

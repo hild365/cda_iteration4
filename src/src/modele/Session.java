@@ -286,6 +286,7 @@ public class Session {
      * @return Une valeur booléenne indiquant si la partie en cours est terminée.
      */
     public boolean partieFinie() {
+        System.out.println(partieCourante.partieFinie());
         return partieCourante.partieFinie();
     }
 
