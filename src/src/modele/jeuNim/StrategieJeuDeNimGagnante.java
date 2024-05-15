@@ -1,11 +1,15 @@
-package modele;
+package modele.jeuNim;
+import modele.EtatPartie;
+import modele.Strategie;
+import modele.jeuNim.EtatPartieJeuDeNim;
 import modele.jeuNim.PartieJeuDeNim;
+import modele.puissance4.StrategiePuissance4;
 import vue.Coup;
 import vue.jeuNim.CoupJeuDeNim;
 
 public class StrategieJeuDeNimGagnante implements Strategie {
-    public Coup genererCoup(Partie etatPartie) {
-        PartieJeuDeNim etatPartieJN  = (PartieJeuDeNim) etatPartie;
+    public Coup genererCoup(EtatPartie etatPartie) {
+        EtatPartieJeuDeNim etatPartieJN  = (EtatPartieJeuDeNim) etatPartie;
         int resultatXor = 0;
         for (int i = 1; i <= etatPartieJN.getNbTas(); i++) {
             resultatXor ^= etatPartieJN.getNbAllumettes(i);
@@ -35,5 +39,8 @@ public class StrategieJeuDeNimGagnante implements Strategie {
         }
 
         return null;
+    }
+    public Strategie nouvelleInstance(){
+        return new StrategieJeuDeNimGagnante();
     }
 }

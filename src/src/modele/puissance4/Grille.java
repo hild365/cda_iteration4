@@ -3,11 +3,13 @@ package modele.puissance4;
 
 import modele.InputException;
 
+import java.util.List;
+
 /**
  * La classe Grille représente la grille de jeu pour le jeu de Puissance 4.
  * Elle contient des méthodes pour insérer des jetons, vérifier l'état de la grille, et effectuer des rotations.
  */
-public class Grille {
+public class Grille implements Cloneable{
     private int[][] grille;
     private int[] dernierCoup;
 
@@ -20,10 +22,15 @@ public class Grille {
         dernierCoup = new int[2];
     }
 
+    private Grille(int[][] grille, int[] dernierCoup){
+        this.grille=grille;
+        this.dernierCoup=dernierCoup;
+    }
+
     /**
      * Insère un jeton dans la colonne spécifiée de la grille.
      *
-     * @param col   La colonne dans laquelle insérer le jeton.
+     * @param col   La colonne dans laquelle insérer le jeton, commence a 1.
      * @param jeton Le jeton à insérer.
      * @throws InputException Si la colonne est pleine.
      */
@@ -36,15 +43,25 @@ public class Grille {
             throw new InputException("La colonne est pleine à cet indice. Veuillez réessayer.");
         }
     }
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
+    public void retirerJeton(int col) {
+        int numligne = ligneVide(col + 1);
+        if (numligne-1 != -1) {
+            grille[col][numligne-1] = 0;
+        }
+    }
 
     /**
      * Trouve la première ligne vide dans la colonne spécifiée.
      *
-     * @param colonne La colonne à vérifier.
+     * @param colonne La colonne à vérifier, commence a 1.
      * @return L'indice de la première ligne vide dans la colonne, ou -1 si la colonne est pleine.
      */
     public int ligneVide(int colonne) {
         for (int ligne = 0; ligne < 7; ligne++) {
+            System.out.println(ligne);
             if (grille[colonne - 1][ligne] == 0) {
                 return ligne;
             }
@@ -63,23 +80,59 @@ public class Grille {
         dernierCoup[1] = ligne;
     }
 
+    public int[] getDernierCoup() {
+        return dernierCoup;
+    }
+
     /**
      * Vérifie si un joueur a gagné la partie (a fait un "Puissance 4").
      * Cette méthode vérifie les lignes, les colonnes et les deux diagonales.
      *
      * @return Le nombre maximum de jetons consécutifs du même joueur trouvés dans les lignes, colonnes ou diagonales.
      */
-    public int puissance4() {
+    public int[] puissance4() {
         /* la position du dernier coup */
         int x = dernierCoup[0];
         int y = dernierCoup[1];
-        int jeton = grille[x][y];
-        /* verifier si il y a un puissance 4 en ligne en colonne ou en diag */
+        if (x>=0 && y>=0) {
+            int jeton = grille[x][y];
+            /* verifier si il y a un puissance 4 en ligne en colonne ou en diag */
+            return puissance4(x, y, jeton);
+        } else {
+            int tailleP4 = -1;
+            int jeton = -1;
+            boolean exAequo=false;
+            for (int i = 0; i < 7; i++) {
+                for (int j = 0; j < 7; j++) {
+                    int testJeton=grille[i][j];
+                    if (testJeton==0) {
+                        continue;
+                    }
+                    int testP4=puissance4(i, j, testJeton)[0];
+                    if(tailleP4==testP4){
+                        if(testJeton!=jeton) {
+                            exAequo = true;
+                        }
+                    } else if (tailleP4<testP4){
+                        tailleP4=testP4;
+                        jeton=testJeton;
+                        exAequo=false;
+                    }
+                }
+            }
+            if(exAequo || jeton==-1){
+                return new int[]{-1};
+            }
+            return new int[]{tailleP4,jeton};
+        }
+    }
+
+    public int[] puissance4(int x, int y,int jeton) {
         int ligne = verifierLigne(x, y, jeton);
         int colonne = verifierColonne(x, y, jeton);
         int diagDescGD = verifierDiagDescGaucheDroite(x, y, jeton);
         int diagAscGD = verifierDiagAscGaucheDroite(x, y, jeton);
-        return Integer.max(Integer.max(ligne, colonne), Integer.max(diagAscGD, diagDescGD));
+        return new int[] {Integer.max(Integer.max(ligne, colonne), Integer.max(diagAscGD, diagDescGD)),jeton};
     }
 
     /**
@@ -101,8 +154,8 @@ public class Grille {
     /**
      * Vérifie si un joueur a fait un "Puissance 4" sur une ligne.
      *
-     * @param x     La colonne du dernier coup.
-     * @param y     La ligne du dernier coup.
+     * @param x     La colonne du dernier coup commence a 0.
+     * @param y     La ligne du dernier coup commence a 0.
      * @param jeton Le jeton du joueur à vérifier.
      * @return Le nombre de jetons consécutifs du même joueur trouvés sur la ligne.
      */
@@ -243,6 +296,7 @@ public class Grille {
                 }
             }
         }
+        mettreAJourDernierCoup(-1,-1);
         return nouvelleGrille;
     }
 

@@ -1,7 +1,7 @@
 package vue.puissance4;
 
 import modele.EtatPartie;
-import modele.puissance4.EtatPartieP4;
+import modele.puissance4.EtatPartiePuissance4;
 import vue.Coup;
 import vue.Ihm;
 
@@ -28,9 +28,9 @@ public class IhmPuissance4 extends Ihm {
      */
     public Coup demanderCoups(String joueurCourant, EtatPartie etatPartieP4) {
         String affichage = "\nÀ " + texteVert(joueurCourant) + " de jouer. Saisissez un numéro correspondant à une colonne de la grille (de 1 à 7)";
-        boolean rotationPossible = ((EtatPartieP4) etatPartieP4).getRotationPossible();
+        boolean rotationPossible = ((EtatPartiePuissance4) etatPartieP4).getRotationPossible();
         if (rotationPossible) {
-            int nbRotation = ((EtatPartieP4) etatPartieP4).getNbRotation(joueurCourant);
+            int nbRotation = ((EtatPartiePuissance4) etatPartieP4).getNbRotation(joueurCourant);
             if (nbRotation == 0) {
                 affichage += ", \n" + texteGris("(attention cependant vous ne pouvez plus effectuer de rotation de la grille)");
             } else {
@@ -50,7 +50,7 @@ public class IhmPuissance4 extends Ihm {
                 affichage(texteRouge(texteRouge("\nErreur, la colonne n'existe pas.\n")));
                 return demanderCoups(joueurCourant, etatPartieP4);
             }
-        } else if (((EtatPartieP4) etatPartieP4).getRotationPossible()){
+        } else if (((EtatPartiePuissance4) etatPartieP4).getRotationPossible()){
             String input = sc.next();
             sc.nextLine();
             if (input.equalsIgnoreCase("g") || input.equalsIgnoreCase("d")) {

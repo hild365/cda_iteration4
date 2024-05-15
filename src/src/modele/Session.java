@@ -1,7 +1,10 @@
 package modele;
 import modele.jeuNim.PartieJeuDeNim;
-import modele.jeuNim.Tas;
+import modele.jeuNim.StrategieJeuDeNimAleatoire;
+import modele.jeuNim.StrategieJeuDeNimGagnante;
 import modele.puissance4.PartiePuissance4;
+import modele.puissance4.StrategiePuissance4;
+import modele.puissance4.StrategiePuissance4Optimisee;
 import vue.Coup;
 
 import java.util.Map;
@@ -68,6 +71,7 @@ public class Session {
         lesParties = new LinkedHashMap<>();
         // Création d'une nouvelle liste pour stocker les joueurs de la session
         lesJoueurs = new ArrayList<>();
+        this.typePartie=typePartie;
         // Pour chaque nom de joueur dans le tableau de noms de joueurs
         for (String nomJoueur : nomsJoueurs) {
             // Création d'un nouvel objet Joueur avec le nom du joueur
@@ -80,8 +84,6 @@ public class Session {
                 lesJoueurs.add(joueur);
             }
         }
-        // Définition du type de partie pour la session
-        setTypePartie(typePartie);
         // Initialisation du joueurCourant pour qu'il ne soit pas null au départ et qu'il prenne en premier le joueur1
         joueurCourant=lesJoueurs.get(0);
     }
@@ -119,28 +121,28 @@ public class Session {
         if (partieCourante == null) {
             if (typePartie == 1) {
                 // Initialisation du joueurIA si le joueur 2 est une IA pour une nouvelle partie de Puissance 4
-                if(lesJoueurs.get(1) instanceof JoueurIA){
-                    Joueur joueurIA = creerIA(infoSupplementaires);
-                    lesJoueurs.set(1,joueurIA);
-                }
                 initialiserPartiePuissance4(infoSupplementaires[0]==1);
             } else if (typePartie == 2) {
                 // Initialisation du joueurIA si le joueur 2 est une IA pour une nouvelle partie de Jeu de Nim
-                if(lesJoueurs.get(1) instanceof JoueurIA){
-                Joueur joueurIA = creerIA(infoSupplementaires);
-                lesJoueurs.set(1,joueurIA);
-                }
                 initialiserPartieJeuDeNim(infoSupplementaires[0], infoSupplementaires[1]);
             }
         } else {
+            Joueur ia= lesJoueurs.get(1);
+            if(ia instanceof JoueurIA){
+                ((JoueurIA) ia).remiseAZero();
+            }
             partieCourante = partieCourante.rejouer(infoSupplementaires);
         }
         vainqueurPartie = null;
     }
     // méthode pour créer une IA en fonction du type de partie et des infos supplementaires
     public JoueurIA creerIA(int[] infoSupplementaires){
-        if (typePartie ==1){
-            return new JoueurIA(new StrategiePuissance4());
+        if (typePartie==1){
+            if(infoSupplementaires[0]==1){
+                return new JoueurIA(new StrategiePuissance4());
+            } else {
+                return new JoueurIA(new StrategiePuissance4Optimisee());
+            }
         }else {
             if (infoSupplementaires[1]==0){
                 return new JoueurIA(new StrategieJeuDeNimGagnante());
@@ -312,6 +314,6 @@ public class Session {
     }
     // méthode pour demander un coup à l'IA
     public Coup demanderCoupIA(){
-        return joueurCourant.demanderCoup(partieCourante);
+        return joueurCourant.demanderCoup(partieCourante.getEtatPartie());
     }
 }

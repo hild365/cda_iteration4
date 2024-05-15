@@ -6,7 +6,7 @@ import modele.Joueur;
 /**
  * La classe EtatJoueurP4 est une sous-classe de la classe EtatJoueur qui représente l'état d'un joueur dans le jeu de Puissance 4.
  */
-public class EtatJoueurP4 extends EtatJoueur {
+public class EtatJoueurPuissance4 extends EtatJoueur {
     /**
      * Le nombre de rotations disponibles pour le joueur.
      */
@@ -17,7 +17,7 @@ public class EtatJoueurP4 extends EtatJoueur {
      *
      * @param joueur Le joueur associé à cet état.
      */
-    public EtatJoueurP4(Joueur joueur) {
+    public EtatJoueurPuissance4(Joueur joueur) {
         super(joueur);
         this.nbRotation = 4;
     }

@@ -6,7 +6,10 @@ public class JoueurIA extends Joueur{
         super("IA");
         this.strategie = strategie;
     }
-    public Coup demanderCoup(Partie etatPartie){
+    public Coup demanderCoup(EtatPartie etatPartie){
         return strategie.genererCoup(etatPartie);
+    }
+    public void remiseAZero(){
+        this.strategie=strategie.nouvelleInstance();
     }
 }

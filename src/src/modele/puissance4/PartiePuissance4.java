@@ -35,7 +35,7 @@ public class PartiePuissance4 extends Partie {
         grille = new Grille();
         this.rotationPossible = rotationPossible;
         for (Joueur joueur : lesJoueurs) {
-            this.lesJoueurs.put(joueur, (new EtatJoueurP4(joueur)));
+            this.lesJoueurs.put(joueur, (new EtatJoueurPuissance4(joueur)));
         }
     }
 
@@ -45,8 +45,9 @@ public class PartiePuissance4 extends Partie {
      * @return Vrai si une séquence de 4 jetons ou plus est alignée ou si la grille est remplie, faux sinon.
      */
     public boolean partieFinie() {
-        tailleP4 = grille.puissance4();
-        return (tailleP4 >= 4 || grille.estRemplie());
+        //TODO: Implementer la verification de la victoire
+        int[] p4 = grille.puissance4();
+        return (p4[0] >= 4 || grille.estRemplie());
     }
 
     /**
@@ -60,7 +61,7 @@ public class PartiePuissance4 extends Partie {
         if (coupsP4.getTypeCoup() == 0) {
             grille.insererJeton(coupsP4.getColonne(), coupsP4.getNumJoueur() + 1);
         } else if (coupsP4.getTypeCoup() == 1) {
-            EtatJoueurP4 etatJoueur = ((EtatJoueurP4) lesJoueurs.get(getJoueur(coupsP4.getNumJoueur())));
+            EtatJoueurPuissance4 etatJoueur = ((EtatJoueurPuissance4) lesJoueurs.get(getJoueur(coupsP4.getNumJoueur())));
             if (etatJoueur.getNbRotation() == 0) {
                throw new InputException("Vous n'avez plus de rotations possible");
             }
@@ -126,7 +127,7 @@ public class PartiePuissance4 extends Partie {
      * @return L'état actuel de la partie, qui contient les informations sur les joueurs et si la rotation est possible.
      */
     public EtatPartie getEtatPartie() {
-        return new EtatPartieP4(lesJoueurs, rotationPossible);
+        return new EtatPartiePuissance4(lesJoueurs,grille.getDernierCoup(),rotationPossible);
     }
 
 }

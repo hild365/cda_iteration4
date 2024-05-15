@@ -111,7 +111,11 @@ public class PartieJeuDeNim extends Partie {
      * @return L'état actuel de la partie, qui contient les informations sur les joueurs et les tas.
      */
     public EtatPartie getEtatPartie() {
-        return new EtatPartieJeuDeNim(lesJoueurs);
+        if (limiteAllumettes) {
+            return new EtatPartieJeuDeNim(lesJoueurs, new ArrayList<Tas> (lesTas),nbAllumettesAutorise);
+        } else {
+            return new EtatPartieJeuDeNim(lesJoueurs, new ArrayList<Tas> (lesTas));
+        }
     }
 
     /**
@@ -122,11 +126,5 @@ public class PartieJeuDeNim extends Partie {
      */
     public PartieJeuDeNim rejouer(int[] infosSup) {
         return new PartieJeuDeNim(getListeLesJoueurs(), this.lesTas.size(), infosSup[0]);
-    }
-    public int getNbTas() {
-        return lesTas.size();
-    }
-    public int getNbAllumettes(int numTas) {
-        return lesTas.get(numTas-1).getAllumette();
     }
 }

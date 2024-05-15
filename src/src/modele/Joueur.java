@@ -55,5 +55,5 @@ public abstract class  Joueur {
     public int getNumJoueur() {
         return numJoueur;
     }
-    public abstract Coup demanderCoup(Partie etatPartie);
+    public abstract Coup demanderCoup(EtatPartie etatPartie);
 }

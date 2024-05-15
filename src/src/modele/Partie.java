@@ -11,7 +11,7 @@ import java.util.Map;
  * La classe Partie est une classe abstraite qui représente une partie de jeu.
  * Elle contient une liste de joueurs et définit les méthodes de base pour gérer une partie.
  */
-public abstract class Partie {
+public abstract class Partie implements Cloneable {
     protected Map<Joueur, EtatJoueur> lesJoueurs;
 
     /**
