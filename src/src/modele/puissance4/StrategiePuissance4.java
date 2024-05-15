@@ -24,28 +24,30 @@ public class StrategiePuissance4 implements Strategie {
         EtatPartiePuissance4 etatPartieP4 = (EtatPartiePuissance4) etatPartie;
         CoupP4 coup=new CoupP4();
         try {
-            if(etatPartieP4.getDernierCoup()[0]==-1) {
-                grille.rotation("d");
-            } else if (etatPartieP4.getDernierCoup()[0]==-2) {
-                grille.rotation("g");
-            } else {
-                grille.insererJeton(etatPartieP4.getDernierCoup()[0] + 1, 1);
-            }
-            Grille grilleTest=(Grille) grille.clone();
-            grilleTest.rotation("d");
-            if (quiGagne(grilleTest)==1) {
-                coup.setTypeCoup(1);
-                coup.setRotation("d");
-                grille.rotation("d");
-                return coup;
-            }
-            grilleTest=(Grille) grille.clone();
-            grilleTest.rotation("g");
-            if (quiGagne(grilleTest)==1) {
-                coup.setTypeCoup(1);
-                coup.setRotation("g");
-                grille.rotation("g");
-                return coup;
+                if(etatPartieP4.getDernierCoup()[0]==-1) {
+                    grille.rotation("d");
+                } else if (etatPartieP4.getDernierCoup()[0]==-2) {
+                    grille.rotation("g");
+                } else {
+                    grille.insererJeton(etatPartieP4.getDernierCoup()[0] + 1, 1);
+                }
+                Grille grilleTest=(Grille) grille.clone();
+            if(etatPartieP4.getRotationPossible()){
+                grilleTest.rotation("d");
+                if (quiGagne(grilleTest)==1) {
+                    coup.setTypeCoup(1);
+                    coup.setRotation("d");
+                    grille.rotation("d");
+                    return coup;
+                }
+                grilleTest=(Grille) grille.clone();
+                grilleTest.rotation("g");
+                if (quiGagne(grilleTest)==1) {
+                    coup.setTypeCoup(1);
+                    coup.setRotation("g");
+                    grille.rotation("g");
+                    return coup;
+                }
             }
 
             //Test des coups possibles
@@ -73,23 +75,32 @@ public class StrategiePuissance4 implements Strategie {
                 }
                 //Je teste si il me ferait perdre avec une rotation a droite
                 grilleTest=(Grille) grille.clone();
-                grilleTest.rotation("d");
-                //si oui alors je ne joue pas ce jeton
-                if(quiGagne(grilleTest)==2) {
-                    grille.retirerJeton(coupCourant.getCol());
-                } else {
-                    //Sinon je teste si il me ferait perdre avec une rotation a gauche
-                    grilleTest = (Grille) grille.clone();
-                    grilleTest.rotation("g");
+
+                if(etatPartieP4.getRotationPossible()) {
+
+                    grilleTest.rotation("d");
                     //si oui alors je ne joue pas ce jeton
                     if (quiGagne(grilleTest) == 2) {
                         grille.retirerJeton(coupCourant.getCol());
                     } else {
-                        //Sinon je joue le jeton
-                        coup.setTypeCoup(0);
-                        coup.setColonne(coupCourant.getCol()+1);
-                        return coup;
+                        //Sinon je teste si il me ferait perdre avec une rotation a gauche
+                        grilleTest = (Grille) grille.clone();
+                        grilleTest.rotation("g");
+                        //si oui alors je ne joue pas ce jeton
+                        if (quiGagne(grilleTest) == 2) {
+                            grille.retirerJeton(coupCourant.getCol());
+                        } else {
+                            //Sinon je joue le jeton
+                            coup.setTypeCoup(0);
+                            coup.setColonne(coupCourant.getCol() + 1);
+                            return coup;
+                        }
                     }
+                } else {
+                    //Sinon je joue le jeton
+                    coup.setTypeCoup(0);
+                    coup.setColonne(coupCourant.getCol() + 1);
+                    return coup;
                 }
             }
         } catch (Exception e) {

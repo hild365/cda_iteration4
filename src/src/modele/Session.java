@@ -138,11 +138,7 @@ public class Session {
     // méthode pour créer une IA en fonction du type de partie et des infos supplementaires
     public JoueurIA creerIA(int[] infoSupplementaires){
         if (typePartie==1){
-            if(infoSupplementaires[0]==1){
                 return new JoueurIA(new StrategiePuissance4());
-            } else {
-                return new JoueurIA(new StrategiePuissance4Optimisee());
-            }
         }else {
             if (infoSupplementaires[1]==0){
                 return new JoueurIA(new StrategieJeuDeNimGagnante());
