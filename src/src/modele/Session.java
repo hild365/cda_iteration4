@@ -4,7 +4,7 @@ import modele.jeuNim.StrategieJeuDeNimAleatoire;
 import modele.jeuNim.StrategieJeuDeNimGagnante;
 import modele.puissance4.PartiePuissance4;
 import modele.puissance4.StrategiePuissance4;
-import modele.puissance4.StrategiePuissance4Optimisee;
+//import modele.puissance4.StrategiePuissance4Optimisee;
 import vue.Coup;
 
 import java.util.Map;
@@ -142,7 +142,7 @@ public class Session {
         }else {
             if (infoSupplementaires[1]==0){
                 return new JoueurIA(new StrategieJeuDeNimGagnante());
-            }else { return new JoueurIA(new StrategieJeuDeNimAleatoire());
+            }else { return new JoueurIA(new StrategieJeuDeNimAleatoire(infoSupplementaires[1]));
             }
         }
     }
