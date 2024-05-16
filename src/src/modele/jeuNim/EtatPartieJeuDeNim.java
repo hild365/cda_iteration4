@@ -34,4 +34,8 @@ public class EtatPartieJeuDeNim extends EtatPartie {
     public int getNbAllumettes(int numTas) {
         return tas.get(numTas-1).getAllumette();
     }
+
+    public int getNbAlluMax() {
+        return nbAlluMax;
+    }
 }

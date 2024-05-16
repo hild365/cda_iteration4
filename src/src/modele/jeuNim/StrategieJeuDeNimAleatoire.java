@@ -13,12 +13,9 @@ public class StrategieJeuDeNimAleatoire implements Strategie {
     private List<CoupJeuDeNim> listeCoupsPossible = new ArrayList<>();
     private int nbAlluMax;
 
-    public StrategieJeuDeNimAleatoire(int nbAlluMax) {
-        this.nbAlluMax = nbAlluMax;
-    }
-
     public Coup genererCoup(EtatPartie etatPartie) {
         EtatPartieJeuDeNim etatPartieJN  = (EtatPartieJeuDeNim) etatPartie;
+        this.nbAlluMax= etatPartieJN.getNbAlluMax();
         listeCoupsPossible.clear(); // Vider la liste pour s'assurer qu'elle ne contient que des coups valides
 
         // Recalculer tous les coups possibles en respectant la contrainte du nombre maximal d'allumettes
@@ -41,6 +38,6 @@ public class StrategieJeuDeNimAleatoire implements Strategie {
 
     }
     public Strategie nouvelleInstance(){
-        return new StrategieJeuDeNimAleatoire(this.nbAlluMax);
+        return new StrategieJeuDeNimAleatoire();
     }
 }

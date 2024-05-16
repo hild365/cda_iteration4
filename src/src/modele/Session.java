@@ -142,7 +142,7 @@ public class Session {
         }else {
             if (infoSupplementaires[1]==0){
                 return new JoueurIA(new StrategieJeuDeNimGagnante());
-            }else { return new JoueurIA(new StrategieJeuDeNimAleatoire(infoSupplementaires[1]));
+            }else { return new JoueurIA(new StrategieJeuDeNimAleatoire());
             }
         }
     }

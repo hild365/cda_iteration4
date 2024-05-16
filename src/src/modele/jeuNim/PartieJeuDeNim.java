@@ -112,9 +112,9 @@ public class PartieJeuDeNim extends Partie {
      */
     public EtatPartie getEtatPartie() {
         if (limiteAllumettes) {
-            return new EtatPartieJeuDeNim(lesJoueurs, new ArrayList<Tas> (lesTas),nbAllumettesAutorise);
+            return new EtatPartieJeuDeNim(lesJoueurs, new ArrayList<> (lesTas),nbAllumettesAutorise);
         } else {
-            return new EtatPartieJeuDeNim(lesJoueurs, new ArrayList<Tas> (lesTas));
+            return new EtatPartieJeuDeNim(lesJoueurs, new ArrayList<> (lesTas));
         }
     }
 
